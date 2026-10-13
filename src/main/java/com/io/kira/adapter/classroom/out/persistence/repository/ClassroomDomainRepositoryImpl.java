@@ -33,7 +33,7 @@ public class ClassroomDomainRepositoryImpl implements ClassroomDomainRepository 
     }
 
     @Override
-    @Cacheable(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byId(#classroomId)")
+    @Cacheable(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byDomainId(#classroomId)")
     public Optional<Classroom> findByClassroomId(UUID classroomId) {
         return jpaClassroomRepository.findById(classroomId).map(ClassroomMapper::toDomain);
     }

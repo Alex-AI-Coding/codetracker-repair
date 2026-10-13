@@ -6,8 +6,12 @@ import org.springframework.stereotype.Component;
 @Component("classroomCacheKey")
 public final class ClassroomCacheKey {
 
-    public String byId(UUID classroomId) {
-        return "by-id:" + classroomId;
+    public String byAggregateId(UUID classroomId) {
+        return "aggregate-by-id:" + classroomId;
+    }
+
+    public String byDomainId(UUID classroomId) {
+        return "domain-by-id:" + classroomId;
     }
 
     public String byCode(String classCode) {
