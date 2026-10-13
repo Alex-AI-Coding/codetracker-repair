@@ -33,7 +33,7 @@ public class ChatbotService implements ChatbotUseCase {
 
         if (command.classroomId() == null) {
             accessLevel = "DASHBOARD";
-            verifiedContext = contextService.buildDashboardContext(command.userId());
+            verifiedContext = contextService.buildDashboardContext(command.userId(), command.message());
         } else {
             ChatbotAccessService.ClassroomAccess access = accessService.getAccess(
                     command.userId(),
@@ -52,10 +52,18 @@ public class ChatbotService implements ChatbotUseCase {
             );
         }
 
-        Result<String, ChatbotCompletionError> completion = completionPort.generateResponse(
+        if (command.timezone() != null) {
+            verifiedContext += "\nUser Time Zone: " + command.timezone()
+                    + "\nCurrent User Local Date: " + java.time.LocalDate.now(java.time.ZoneId.of(command.timezone()))
+                    + "\nUse this time zone for today/tomorrow and local deadline displays; source timestamps are UTC.\n";
+        }
+
+        Result<String, ChatbotCompletionError> completion = command.history().isEmpty() ? completionPort.generateResponse(
                 command.message(),
                 accessLevel,
                 verifiedContext
+        ) : completionPort.generateResponse(
+                command.message(), accessLevel, verifiedContext, command.history()
         );
 
         if (!completion.success()) {
