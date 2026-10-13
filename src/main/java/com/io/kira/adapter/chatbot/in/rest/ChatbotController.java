@@ -41,7 +41,9 @@ public class ChatbotController {
                 new ChatbotCommand(
                         principal.getUserId(),
                         request.message().trim(),
-                        request.classroomId()
+                        request.classroomId(),
+                        request.history(),
+                        request.timezone()
                 )
         );
 
@@ -56,7 +58,7 @@ public class ChatbotController {
                     ));
             case PROVIDER_NOT_CONFIGURED -> ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ChatbotResponse.fail(
-                            "Echo is not configured yet. Add the Google AI Studio API key and try again."
+                            "Echo's AI service is not configured. You can still use Quick help. Ask your project administrator to enable AI replies."
                     ));
             case PROVIDER_UNAVAILABLE -> ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                     .body(ChatbotResponse.fail(
