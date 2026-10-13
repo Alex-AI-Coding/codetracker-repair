@@ -39,7 +39,8 @@ public class ClassroomAppRepositoryImpl implements ClassroomAppRepository {
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byId(#aggregate.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byAggregateId(#aggregate.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byDomainId(#aggregate.classroom.classroomId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byCode(#aggregate.classroom.classCode)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byInstructorUserId(#aggregate.classroom.instructorUserId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM_SETTINGS, key = "@classroomSettingsCacheKey.byClassroomId(#aggregate.classroom.classroomId)")
@@ -50,7 +51,8 @@ public class ClassroomAppRepositoryImpl implements ClassroomAppRepository {
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byId(#aggregate.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byAggregateId(#aggregate.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byDomainId(#aggregate.classroom.classroomId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byCode(#aggregate.classroom.classCode)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byInstructorUserId(#aggregate.classroom.instructorUserId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM_SETTINGS, key = "@classroomSettingsCacheKey.byClassroomId(#aggregate.classroom.classroomId)")
@@ -70,7 +72,8 @@ public class ClassroomAppRepositoryImpl implements ClassroomAppRepository {
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byId(#result.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byAggregateId(#result.classroom.classroomId)"),
+            @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byDomainId(#result.classroom.classroomId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byCode(#result.classroom.classCode)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byInstructorUserId(#result.classroom.instructorUserId)"),
             @CacheEvict(value = ClassroomCacheNames.CLASSROOM_ACTIVITY, key = "@classroomCacheKey.activityCounts(#result.classroom.classroomId)"),
@@ -107,7 +110,7 @@ public class ClassroomAppRepositoryImpl implements ClassroomAppRepository {
     }
 
     @Override
-    @Cacheable(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byId(#classroomId)")
+    @Cacheable(value = ClassroomCacheNames.CLASSROOM, key = "@classroomCacheKey.byAggregateId(#classroomId)")
     public Optional<ClassroomAggregate> findByClassroomId(UUID classroomId) {
         return jpaClassroomRepository.findById(classroomId).map(ClassroomAggregateMapper::toDomain);
     }
